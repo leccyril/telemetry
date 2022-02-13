@@ -83,12 +83,7 @@ export default {
         })
     },
   },
-  beforeUnmount: () => {
-    //clearInterval(this.interval)
-  },
   created() {
-    //this.$store.commit('setError', '')
-    //this.$store.commit('setMessage', '')
     this.getClientsConnected()
     this.interval = setInterval(() => {
       this.getClientsConnected()
