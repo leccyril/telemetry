@@ -14,13 +14,12 @@ import reactor.core.publisher.Flux;
 @Slf4j
 @Component
 public class ClientHandler {
-	
-	
+		
     @MessageMapping("telemetry")
     public Flux<TelemetryDto> statusUpdate(String status) {
-    	log.info(status);
         log.info("Start send telemetry");        
-        return Flux.interval(Duration.ofSeconds(Client.INTERVAL)).map(index ->new TelemetryDto(TelemetryUtils.getProcessCpuLoad(),TelemetryUtils.getMemoryUsage(),TelemetryUtils.getActiveProcesses()));
+        return Flux.interval(Duration.ofSeconds(Client.INTERVAL)).map(index ->new TelemetryDto(TelemetryUtils.getProcessCpuLoad(),TelemetryUtils.getMemoryUsage(),TelemetryUtils.getActiveProcesses()))
+        		.retry();   		
     }
     
     /**

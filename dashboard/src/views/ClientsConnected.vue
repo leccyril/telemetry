@@ -43,11 +43,11 @@ export default {
         })
       },
 
-      triggerNegative () {
+      triggerNegative (print) {
         $q.notify({
           position: 'top',
           type: 'negative',
-          message: 'Error while disconnected client'
+          message: print
         })
       },
 }
@@ -67,7 +67,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          this.triggerNegative()
+          this.triggerNegative('Error while closing client')
       
         })
     },
@@ -78,16 +78,12 @@ export default {
         })
         .catch((error) => {
           console.log(error)
+          this.triggerNegative('Server Connection Error, please contact administrator')
       
         })
     },
   },
-  beforeUnmount: () => {
-    //clearInterval(this.interval)
-  },
   created() {
-    //this.$store.commit('setError', '')
-    //this.$store.commit('setMessage', '')
     this.getClientsConnected()
     this.interval = setInterval(() => {
       this.getClientsConnected()

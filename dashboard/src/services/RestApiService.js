@@ -2,11 +2,10 @@ import axios from 'axios'
 
   const api=
        axios.create({
-        baseURL: 'http://localhost:8089',
+        baseURL: process.env.VUE_APP_BACKEND_URL,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       })
-      console.log(api.config);
 export default api

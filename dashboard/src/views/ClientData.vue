@@ -2,7 +2,6 @@
 
 <h1 align="center"> Telemetry for client {{this.id}}</h1>
 
-
   <div class="q-pa-md">
     <q-table
       class="my-sticky-header-column-table"
@@ -64,12 +63,7 @@ export default {
         })
     },
   },
-  beforeUnmount: () => {
-    //clearInterval(this.interval)
-  },
   created() {
-    //this.$store.commit('setError', '')
-    //this.$store.commit('setMessage', '')
     this.getClientDatas(this.id)
     this.interval = setInterval(() => {
       this.getClientDatas(this.id)
