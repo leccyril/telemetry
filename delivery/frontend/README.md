@@ -31,3 +31,7 @@ location / {
 you can check all server configuration here 
 
 https://router.vuejs.org/guide/essentials/history-mode.html
+
+you can override ENV var, by default
+
+VUE_APP_BACKEND_URL=http://localhost:8089
