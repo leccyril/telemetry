@@ -1,8 +1,8 @@
 # Telemetry Challenge
 
-This is a challenge to create architecture with client will send by interval telemetry data to backend server. All datas will be saved in database.
+This is a challenge to create architecture with client(s) send telemetries datas to backend server. All datas will be saved in database (Mongo DB).
 Access to backend will be done via a frontend application.
-Possibility to close client from frontend (via backend server)
+Possibility to close client(s) from frontend (via backend server)
 ## Technology stack
 
 Java and Spring boot for client and backend server
