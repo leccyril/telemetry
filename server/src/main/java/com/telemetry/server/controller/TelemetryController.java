@@ -92,7 +92,8 @@ public class TelemetryController {
 
 	@ConnectMapping("telemetry.identification")
 	void connectShellClientAndAskForTelemetry(RSocketRequester requester, @Payload String client) {
-
+		
+		//we can allow or deny client to send telemetry datas
 		requester.rsocket().onClose().doFirst(() -> {
 			// Add all new clients to a client list
 			log.info("Client: {} CONNECTED.", client);
@@ -108,7 +109,7 @@ public class TelemetryController {
 
 		// Once connection confirmed, ask to send telemetry update
 		requester.route("telemetry").data("OPEN").retrieveFlux(TelemetryDto.class).doOnNext(s -> {
-			log.info("Client: {} inserting data", client, s.getCpuUsage());
+			log.debug("Client: {} inserting or updating data", client, s.getCpuUsage());
 			// each time data incoming, update database
 			repository.save(
 					new Telemetry(client, s.getCpuUsage(), s.getMemoryUsed(), s.getProcesses(), LocalDateTime.now()));
