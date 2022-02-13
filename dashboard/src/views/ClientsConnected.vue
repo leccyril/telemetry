@@ -43,11 +43,11 @@ export default {
         })
       },
 
-      triggerNegative () {
+      triggerNegative (print) {
         $q.notify({
           position: 'top',
           type: 'negative',
-          message: 'Error while disconnected client'
+          message: print
         })
       },
 }
@@ -67,7 +67,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          this.triggerNegative()
+          this.triggerNegative('Error while closing client')
       
         })
     },
@@ -78,6 +78,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
+          this.triggerNegative('Server Connection Error, please contact administrator')
       
         })
     },

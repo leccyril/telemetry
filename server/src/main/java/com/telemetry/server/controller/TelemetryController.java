@@ -8,6 +8,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.annotation.ConnectMapping;
@@ -66,7 +67,8 @@ public class TelemetryController {
 		if (CLIENTS.get(id) != null) {
 			Mono<Void> call = CLIENTS.get(id).route("close").data("stop").send();
 			call.doOnSuccess(consumer -> {
-				log.info("Client {} closed", CLIENTS.get(id));
+				log.info("Client {} closed",id);
+				CLIENTS.remove(id);
 			}).subscribe();
 			return ResponseEntity.noContent().build();
 		}
@@ -81,8 +83,14 @@ public class TelemetryController {
 		CLIENTS.values().stream().forEach(requester -> requester.rsocket().dispose());
 		log.info("Shutting down.");
 	}
+	
+	@MessageMapping("foo")
+	void call(RSocketRequester requester, @Payload String data) {
+		log.info(data);
+	}
+	
 
-	@ConnectMapping("identification")
+	@ConnectMapping("telemetry.identification")
 	void connectShellClientAndAskForTelemetry(RSocketRequester requester, @Payload String client) {
 
 		requester.rsocket().onClose().doFirst(() -> {
@@ -100,11 +108,11 @@ public class TelemetryController {
 
 		// Once connection confirmed, ask to send telemetry update
 		requester.route("telemetry").data("OPEN").retrieveFlux(TelemetryDto.class).doOnNext(s -> {
-			log.debug("Client: {} inserting data", client, s.getCpuUsage());
+			log.info("Client: {} inserting data", client, s.getCpuUsage());
 			// each time data incoming, update database
 			repository.save(
 					new Telemetry(client, s.getCpuUsage(), s.getMemoryUsed(), s.getProcesses(), LocalDateTime.now()));
-		}).subscribe();
+		}).retry().subscribe();
 
 		// manage channel close and disconnection
 		Hooks.onErrorDropped(error -> {
