@@ -1,0 +1,2 @@
+2022-02-15 18:06:52.785  INFO 30440 --- [reactor-tcp-nio-2] com.challenge.client.ClientHandler       : new command coming : stop
+2022-02-15 18:06:52.800  INFO 30440 --- [reactor-tcp-nio-2] com.challenge.client.ClientHandler       : stopping agent requiested

@@ -7,7 +7,7 @@ Possibility to close client(s) from frontend (via backend server)
 
 Java and Spring boot for client and backend server
 
-Rsocket communication. 
+Rsocket TCP communication. 
 
 Mongo DB as database
 
@@ -27,8 +27,14 @@ then connect with NoSqlBooster and create database and user or connect with shel
 ```bash
 db.createUser({user:"telemetry", pwd:"telemetry", roles:[{role:"readWrite", db: "telemetry"}]});
 ```
-you can alos just install mongoDB locally
+you can also just install mongoDB locally
+
+Go in /delivery folder you will have for each part folder with installation guide
 
 ## Usage
 
-Go in /delivery folder you will have for each part folder with installation guide
+you can launch all projects on same computer
+Tested with windows distribution
+
+
+
